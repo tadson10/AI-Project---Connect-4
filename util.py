@@ -101,3 +101,12 @@ def get_possible_moves(board):
         if not is_full:
             possible_cols.append(i)
     return possible_cols
+
+# Return color of winner or None if no winner
+def is_winner(board, color1, color2):
+    if is_winning_move(board, color1):
+        return color1
+    elif is_winning_move(board, color2):
+        return color2
+    else:
+        return None
