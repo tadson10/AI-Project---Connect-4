@@ -5,7 +5,7 @@ from util import *
 WIN_SIZE = 5
 
 # maxmin: MIN: -1, MAX: 1
-def minmax(board, depth, maxmin):
+def minmax(board, depth, maxmin, alpha, beta):
     if is_winning_move(board, player_type["bot"]):
         return 100000 + depth
     elif is_winning_move(board, player_type["player"]):
@@ -20,11 +20,14 @@ def minmax(board, depth, maxmin):
         bestScore = -maxsize
         for col in get_possible_moves(board):
             insert_disk(board, player_type["bot"], col)
-            score = minmax(board, depth-1, -1)
+            score = minmax(board, depth-1, -1, alpha, beta)
             remove_disk(board, player_type["bot"], col)
             if score > bestScore:
                 bestScore = score
 
+            alpha = max(alpha, score)
+            if beta <= alpha:
+                break
         return bestScore
 
     # MIN
@@ -32,12 +35,15 @@ def minmax(board, depth, maxmin):
         bestScore = maxsize
         for col in get_possible_moves(board):
             insert_disk(board, player_type["player"], col)
-            score = minmax(board, depth-1, 1)
+            score = minmax(board, depth-1, 1, alpha, beta)
             remove_disk(board, player_type["player"], col)
             if (score < bestScore):
                 bestScore = score
 
-        # print_board(board)
+            beta = min(beta, score)
+            if beta <= alpha:
+                break
+
         return bestScore
 
 

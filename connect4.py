@@ -18,7 +18,12 @@ RED = (255, 0, 0)
 BLACK = (0, 0, 0)
 
 field_size = 100
-algorithms = {"Minimax": minimax.minmax, "MCTS": print("Not implemented")}
+
+board = [[' ' for x in range(COL_NUM)] for y in range(ROW_NUM)]
+algorithm = "Minimax"
+
+
+# algorithms = {"Minimax": minimax.minmax(board, 2, -1, -maxsize, maxsize), "MCTS": print("Not implemented")}
 
 
 def print_board(board):
@@ -31,6 +36,7 @@ def print_board(board):
         else:
             print('-------------')
     print("\n")
+print_board(board)
 
 
 def player_move(board):
@@ -47,7 +53,12 @@ def bot_move(board):
     best_column = -1
     for col in get_possible_moves(board):
         insert_disk(board, player_type["bot"], col)
-        score = minimax.minmax(board, 2, -1)
+        score = 0
+        if algorithm == "Minimax":
+            score = minimax.minmax(board, 4, -1, -maxsize, maxsize)
+        elif algorithm == "MCTS":
+            print("Not implemented")
+            exit()
         remove_disk(board, player_type["bot"], col)
         print(col, score)
         if (score >= best_score):
@@ -65,11 +76,6 @@ def bot_move(board):
     print(best_score, best_column)
     insert_disk(board, player_type["bot"], best_column)
     return
-
-
-board = [[' ' for x in range(COL_NUM)] for y in range(ROW_NUM)]
-
-print_board(board)
 
 
 def draw_board(board, screen):
@@ -167,6 +173,7 @@ def play_game(board, clock, screen, font):
 def set_ai_algorithm(value, index):
     # Do the job here !
     print(value, index)
+    global algorithm
     algorithm = value[0][0]
     print(algorithm)
     pass
@@ -182,24 +189,23 @@ def start_the_game(args):
     pass
 
 
-# def init_game(board):
-pygame.init()
-font = pygame.font.Font(None, 36)
-clock = pygame.time.Clock()
-size = (COL_NUM*field_size, (ROW_NUM+1)*field_size)
-screen = pygame.display.set_mode(size)
+def init_game(board):
+    pygame.init()
+    font = pygame.font.Font(None, 36)
+    clock = pygame.time.Clock()
+    size = (COL_NUM*field_size, (ROW_NUM+1)*field_size)
+    screen = pygame.display.set_mode(size)
 
-algorithm = "Minimax"
-menu = pygame_menu.Menu('Welcome', COL_NUM*field_size, (ROW_NUM+1)*field_size,
-                        theme=pygame_menu.themes.THEME_BLUE)
+    menu = pygame_menu.Menu('Welcome', COL_NUM*field_size, (ROW_NUM+1)*field_size,
+                            theme=pygame_menu.themes.THEME_BLUE)
 
-menu.add.selector('AI algorithm:', [
-    ('Minimax', 1), ('MCTS', 2)], onchange=set_ai_algorithm)
-menu.add.button('Play', start_the_game, [board, clock, screen, font])
-menu.add.button('Quit', pygame_menu.events.EXIT)
-menu.mainloop(screen)
+    menu.add.selector('AI algorithm:', [
+        ('Minimax', 1), ('MCTS', 2)], onchange=set_ai_algorithm)
+    menu.add.button('Play', start_the_game, [board, clock, screen, font])
+    menu.add.button('Quit', pygame_menu.events.EXIT)
+    menu.mainloop(screen)
 
-# init_game(board)
+init_game(board)
 
 # while True:  # not is_winning_move():
 #     bot_move(board)
