@@ -1,6 +1,6 @@
 from datetime import datetime
+from kaggle_environments import make, evaluate, utils
 import random
-from kaggle_environments import make
 import numpy as np
 import sys
 from game_memory import GameMemory, GameStep
@@ -11,14 +11,15 @@ import math
 
 config = {'rows': 6, 'columns': 7, 'inarow': 4}
 env = make("connectx", debug=True, configuration=config)
-trainer = env.train([None,'random'])
+trainer = env.train([None,'negamax'])
+print(list(env.agents))
 
 model = SequentialModel(state_size=config['rows']*config['columns'], action_size=config['columns'])
 
-TRAINING_GAMES = 20000
+TRAINING_GAMES = 1
 EPSILON_CURVE = 0.9996546719
 SAVE_INTERVAL = 500
-MODEL_FILENAME = '3.h5'
+MODEL_FILENAME = '2.h5'
 
 i = 1
 agent_wins = 0
@@ -32,11 +33,15 @@ while(i <= TRAINING_GAMES):
     done = False
     game_memory = GameMemory()
     state = trainer.reset()['board']
-    epsilon = math.pow(EPSILON_CURVE,i)
     #print(observation)
     while not done:
         #action = agent_random(state, config)
-        action = model.predict_action(np.array([state]).astype(int), epsilon)
+        print("state")
+        print(np.array([state]).astype(int))
+        action = model.predict_action(np.array([state]).astype(int), -1)
+
+
+        print("action", action)
         next_state, dummy, overflow, info = trainer.step(action)
         next_state = next_state['board']
         winner = is_winner(np.array(next_state).reshape(6,7), 1, 2)
@@ -61,23 +66,9 @@ while(i <= TRAINING_GAMES):
         elif not overflow and winner == None:
             reward = 0
         
-        game_memory.add_game_step(GameStep(np.array([state]).astype(int), action, np.array([next_state]).astype(int), reward, done))
         
         state = next_state
 
-    # Train RNN after the game
-    model.batch_train(game_memory)
-
-    # Save model
-    if(i % SAVE_INTERVAL == 0):
-        model.save_model(f'./RNN/models/{MODEL_FILENAME}', overwrite=True)
-        with open("./RNN/log.txt", "a") as file_object:
-            # Append 'hello' at the end of file
-            file_object.write(f'{str(datetime.now())}: Saved model to {MODEL_FILENAME}\n')
-            file_object.write(f'Games played: {i}, agent wins: {agent_wins}, oppoennt wins: {opponent_wins}\n')
-            file_object.write(f'epsilon: {epsilon}\n')
-            file_object.write(f'=====================================\n')
-        print(f'Saving model, games played {i}')
     
     trainer.reset()
     done = False

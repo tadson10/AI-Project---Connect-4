@@ -3,11 +3,12 @@ from typing import Sequence
 import numpy as np
 
 class GameStep:
-    def __init__(self, state, action, next_state, reward) -> None:
+    def __init__(self, state, action, next_state, reward, done) -> None:
         self.state = state
         self.action = action
         self.next_state = next_state
         self.reward = reward
+        self.done = done
     
     def __str__(self) -> str:
         s: str = "---------------------\n"

@@ -7,13 +7,13 @@ from keras.optimizers import Adam
 from datetime import datetime
 import numpy as np
 import random
-from game_memory import GameMemory
+from RNN.game_memory import GameMemory, GameStep
 
 class SequentialModel:
-    def __init__(self,  state_size: int, action_size: int, filepath: str = None) -> None:
-        print('AADSDASDASDASDASDASDADIWUHFLIWEFJQLWIFE')
+    def __init__(self, gamma = 0.9,  state_size: int = 6*7, action_size: int = 7, filepath: str = None) -> None:
         self.state_size = state_size
         self.action_size = action_size
+        self.gamma = gamma
         if filepath is None:
             self.model: models.Sequential = self.__build_model()
         else:
@@ -23,8 +23,7 @@ class SequentialModel:
     def __build_model(self):
         print('Creating model')
         model = models.Sequential()
-        model.add(Flatten())
-        model.add(Dense(50, activation='relu'))
+        model.add(Dense(20, input_dim=self.state_size, activation='relu'))
         model.add(Dense(50, activation='relu'))
         model.add(Dense(self.action_size, activation='linear'))
     
@@ -36,11 +35,11 @@ class SequentialModel:
         game_memory.shuffle_game_steps()
         for game_step in game_memory.game_states:
             target = game_step.reward
-            """ if not game_step.:
-                target = gamereward + self.gamma * np.amax(self.model.predict(next_state)[0]) """
+            if not game_step.done:
+                target = game_step.reward + self.gamma * np.amax(self.model.predict(game_step.next_state)[0])
             target_f = self.model.predict(game_step.state)
             target_f[0][game_step.action] = target
-            self.model.fit(np.array(game_step.state), target_f, epochs=1, verbose=0)
+            self.model.fit(game_step.state, target_f, epochs=1, verbose=0)
 
 
     def predict_action(self, state, epsilon):
@@ -56,7 +55,7 @@ class SequentialModel:
         self.model.save(filepath, overwrite=overwrite)
     
     def __import_model(self, filepath):
-        print('Loadin model')
+        print('Loading model')
         return models.load_model(filepath)
 
     def reload_model(self, filepath):
