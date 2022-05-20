@@ -38,7 +38,8 @@ class PlayerRNN(Player):
         return self.model.predict_action(self.__transform_state(state), -1)
 
     def __transform_state(self, state):
-        state = np.array(state)
+        state = np.array(state).flatten()
+        state = np.array([state])
         state = np.where(state == ' ', 0,state)
         state = np.where(state == 'O', 2,state)
         state = np.where(state == 'X', 1,state)
