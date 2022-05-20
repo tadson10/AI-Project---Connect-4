@@ -1,14 +1,13 @@
 from contextlib import redirect_stdout
 import random
 from sys import maxsize
-from attr import field
 import minimax
 import pygame
 import random
 import math
 import sys
 import pygame_menu
-from player import PlayerMiniMax
+from player import PlayerMiniMax, PlayerRNN
 from util import *
 
 
@@ -127,8 +126,7 @@ def play_game(board, clock, screen, font):
                             turn = 0
 
         if turn == 1:
-            # bot_move(board)
-            ai_player.get_move(board)
+            insert_disk(board, player_type["bot"], ai_player.get_move(board))
             draw_board(board, screen)
             turn *= -1
             if is_winning_move(board, player_type["bot"]):
@@ -148,6 +146,8 @@ def set_ai_algorithm(value, index):
     global ai_player
     if algorithm == "Minimax":
         ai_player = PlayerMiniMax("Minimax")
+    elif algorithm ==  "Neural network":
+        ai_player = PlayerRNN('Neural network', './RNN/models/4.h5')
     elif algorithm == "MCTS":
         exit()
         
@@ -174,7 +174,7 @@ def init_game(board):
                             theme=pygame_menu.themes.THEME_BLUE)
 
     menu.add.selector('AI algorithm:', [
-        ('Minimax', 1), ('MCTS', 2)], onchange=set_ai_algorithm)
+        ('Minimax', 1), ('MCTS', 2), ('Neural network', 3)], onchange=set_ai_algorithm)
     menu.add.button('Play', start_the_game, [board, clock, screen, font])
     menu.add.button('Quit', pygame_menu.events.EXIT)
     menu.mainloop(screen)

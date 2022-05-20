@@ -206,5 +206,4 @@ def minimax_move(board):
 
     best_column = random.choice(max_cols)
     print(best_score, best_column)
-    insert_disk(board, player_type["bot"], best_column)
-    return
+    return best_column
