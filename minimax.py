@@ -1,6 +1,7 @@
 # from connect4 import is_winning_move, player_type, is_board_full, get_possible_moves, insert_disk, remove_disk, ROW_NUM, COL_NUM
 from sys import maxsize
 from util import *
+import random
 
 WIN_SIZE = 5
 
@@ -177,3 +178,33 @@ def count_consecutive(window, color):
             curr_count = 0
 
     return consecutive_count
+
+def minimax_move(board):
+    scores = []
+    best_score = -maxsize
+    best_column = -1
+    for col in get_possible_moves(board):
+        insert_disk(board, player_type["bot"], col)
+        # score = 0
+        # if algorithm == "Minimax":
+        score = minmax(board, 4, -1, -maxsize, maxsize)
+        # elif algorithm == "MCTS":
+            # print("Not implemented")
+            # exit()
+        remove_disk(board, player_type["bot"], col)
+        print(col, score)
+        if (score >= best_score):
+            scores.append((score, col))
+            best_score = score
+            best_column = col
+
+    # If there are more possible moves with the same max score - pick random
+    max_cols = []
+    for score, col in scores:
+        if score == best_score:
+            max_cols.append(col)
+
+    best_column = random.choice(max_cols)
+    print(best_score, best_column)
+    insert_disk(board, player_type["bot"], best_column)
+    return

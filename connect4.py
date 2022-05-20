@@ -8,6 +8,7 @@ import random
 import math
 import sys
 import pygame_menu
+from player import PlayerMiniMax
 from util import *
 
 
@@ -21,7 +22,7 @@ field_size = 100
 
 board = [[' ' for x in range(COL_NUM)] for y in range(ROW_NUM)]
 algorithm = "Minimax"
-
+ai_player = PlayerMiniMax("Minimax")
 
 # algorithms = {"Minimax": minimax.minmax(board, 2, -1, -maxsize, maxsize), "MCTS": print("Not implemented")}
 
@@ -44,37 +45,6 @@ def player_move(board):
     print_board(board)
     column = int(input("Enter the row for 'O':  "))
     insert_disk(board, player_type["player"], column)
-    return
-
-
-def bot_move(board):
-    scores = []
-    best_score = -maxsize
-    best_column = -1
-    for col in get_possible_moves(board):
-        insert_disk(board, player_type["bot"], col)
-        score = 0
-        if algorithm == "Minimax":
-            score = minimax.minmax(board, 4, -1, -maxsize, maxsize)
-        elif algorithm == "MCTS":
-            print("Not implemented")
-            exit()
-        remove_disk(board, player_type["bot"], col)
-        print(col, score)
-        if (score >= best_score):
-            scores.append((score, col))
-            best_score = score
-            best_column = col
-
-    # If there are more possible moves with the same max score - pick random
-    max_cols = []
-    for score, col in scores:
-        if score == best_score:
-            max_cols.append(col)
-
-    best_column = random.choice(max_cols)
-    print(best_score, best_column)
-    insert_disk(board, player_type["bot"], best_column)
     return
 
 
@@ -157,7 +127,8 @@ def play_game(board, clock, screen, font):
                             turn = 0
 
         if turn == 1:
-            bot_move(board)
+            # bot_move(board)
+            ai_player.get_move(board)
             draw_board(board, screen)
             turn *= -1
             if is_winning_move(board, player_type["bot"]):
@@ -171,16 +142,19 @@ def play_game(board, clock, screen, font):
 
 
 def set_ai_algorithm(value, index):
-    # Do the job here !
-    print(value, index)
     global algorithm
     algorithm = value[0][0]
-    print(algorithm)
+
+    global ai_player
+    if algorithm == "Minimax":
+        ai_player = PlayerMiniMax("Minimax")
+    elif algorithm == "MCTS":
+        exit()
+        
     pass
 
 
 def start_the_game(args):
-    # Do the job here !
     board = args[0]
     clock = args[1]
     screen = args[2]
