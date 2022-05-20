@@ -13,12 +13,12 @@ config = {'rows': 6, 'columns': 7, 'inarow': 4}
 env = make("connectx", debug=True, configuration=config)
 trainer = env.train([None,'random'])
 
-model = SequentialModel(state_size=config['rows']*config['columns'], action_size=config['columns'])
+model = SequentialModel(state_size=config['rows']*config['columns'], action_size=config['columns'], filepath='./RNN/models/4.h5')
 
-TRAINING_GAMES = 30000
+TRAINING_GAMES = 20000
 EPSILON_CURVE = 0.999769768
 SAVE_INTERVAL = 500
-MODEL_FILENAME = '3.h5'
+MODEL_FILENAME = '4.h5'
 
 i = 1
 agent_wins = 0
@@ -35,14 +35,15 @@ action_hist = {
 }
 
 # Clear logs
-with open("./RNN/log.txt", 'r+') as file_object:
+with open("./RNN/log1.txt", 'r+') as file_object:
     file_object.truncate(0)
 
 while(i <= TRAINING_GAMES):
     done = False
     game_memory = GameMemory()
     state = trainer.reset()['board']
-    epsilon = math.pow(EPSILON_CURVE,i)
+    #epsilon = math.pow(EPSILON_CURVE,i)
+    epsilon = 0.01
     #print(observation)
     while not done:
         #action = agent_random(state, config)
@@ -82,7 +83,7 @@ while(i <= TRAINING_GAMES):
     # Save model
     if(i % SAVE_INTERVAL == 0):
         model.save_model(f'./RNN/models/{MODEL_FILENAME}', overwrite=True)
-        with open("./RNN/log.txt", "a") as file_object:
+        with open("./RNN/log1.txt", "a") as file_object:
             file_object.write(f'{str(datetime.now())}: Saved model to {MODEL_FILENAME}\n')
             file_object.write(f'Games played: {i}, agent wins: {agent_wins}, oppoennt wins: {opponent_wins}\n')
             file_object.write(f'epsilon: {epsilon}\n')
@@ -93,5 +94,5 @@ while(i <= TRAINING_GAMES):
     done = False
     i += 1
 
-with open("./RNN/log.txt", "a") as file_object:
+with open("./RNN/log1.txt", "a") as file_object:
     file_object.write(f'0: {action_hist[0]}, 1: {action_hist[1]}, 2: {action_hist[2]}, 3: {action_hist[3]}, 4: {action_hist[4]}, 5: {action_hist[5]}, 6: {action_hist[6]}')
