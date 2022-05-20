@@ -15,14 +15,24 @@ trainer = env.train([None,'random'])
 
 model = SequentialModel(state_size=config['rows']*config['columns'], action_size=config['columns'])
 
-TRAINING_GAMES = 20000
-EPSILON_CURVE = 0.9996546719
+TRAINING_GAMES = 30000
+EPSILON_CURVE = 0.999769768
 SAVE_INTERVAL = 500
 MODEL_FILENAME = '3.h5'
 
 i = 1
 agent_wins = 0
 opponent_wins = 0
+
+action_hist = {
+    0: 0,
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+    6: 0
+}
 
 # Clear logs
 with open("./RNN/log.txt", 'r+') as file_object:
@@ -37,6 +47,7 @@ while(i <= TRAINING_GAMES):
     while not done:
         #action = agent_random(state, config)
         action = model.predict_action(np.array([state]).astype(int), epsilon)
+        action_hist[action] += 1
         next_state, dummy, overflow, info = trainer.step(action)
         next_state = next_state['board']
         winner = is_winner(np.array(next_state).reshape(6,7), 1, 2)
@@ -72,7 +83,6 @@ while(i <= TRAINING_GAMES):
     if(i % SAVE_INTERVAL == 0):
         model.save_model(f'./RNN/models/{MODEL_FILENAME}', overwrite=True)
         with open("./RNN/log.txt", "a") as file_object:
-            # Append 'hello' at the end of file
             file_object.write(f'{str(datetime.now())}: Saved model to {MODEL_FILENAME}\n')
             file_object.write(f'Games played: {i}, agent wins: {agent_wins}, oppoennt wins: {opponent_wins}\n')
             file_object.write(f'epsilon: {epsilon}\n')
@@ -83,3 +93,5 @@ while(i <= TRAINING_GAMES):
     done = False
     i += 1
 
+with open("./RNN/log.txt", "a") as file_object:
+    file_object.write(f'0: {action_hist[0]}, 1: {action_hist[1]}, 2: {action_hist[2]}, 3: {action_hist[3]}, 4: {action_hist[4]}, 5: {action_hist[5]}, 6: {action_hist[6]}')
