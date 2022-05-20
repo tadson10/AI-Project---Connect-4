@@ -2,6 +2,7 @@ from abc import ABCMeta, abstractmethod
 
 from RNN.sequential_model import SequentialModel
 import numpy as np
+from minimax import minimax_move
 
 class Player(object):
     def __init__(self, label):
@@ -44,3 +45,8 @@ class PlayerRNN(Player):
         state = np.where(state == 'O', 2,state)
         state = np.where(state == 'X', 1,state)
         return state.astype(int)
+
+class PlayerMiniMax(Player):
+    
+    def get_move(self, state):
+        return minimax_move(state)
