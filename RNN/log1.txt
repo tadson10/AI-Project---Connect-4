@@ -1,48 +1,161 @@
-2022-05-20 18:46:54.584280: Saved model to 4.h5
-Games played: 500, agent wins: 370, oppoennt wins: 91
+2022-05-21 01:54:25.920554: Saved model to 5.h5
+Games played: 500, agent wins: 393, oppoennt wins: 83
 epsilon: 0.01
 =====================================
-2022-05-20 19:03:14.318335: Saved model to 4.h5
-Games played: 1000, agent wins: 753, oppoennt wins: 169
+2022-05-21 02:09:02.256566: Saved model to 5.h5
+Games played: 1000, agent wins: 809, oppoennt wins: 150
 epsilon: 0.01
 =====================================
-2022-05-20 19:18:42.469894: Saved model to 4.h5
-Games played: 1500, agent wins: 1145, oppoennt wins: 250
+2022-05-21 02:23:20.605336: Saved model to 5.h5
+Games played: 1500, agent wins: 1212, oppoennt wins: 214
 epsilon: 0.01
 =====================================
-2022-05-20 19:34:37.821166: Saved model to 4.h5
-Games played: 2000, agent wins: 1529, oppoennt wins: 333
+2022-05-21 02:38:04.804141: Saved model to 5.h5
+Games played: 2000, agent wins: 1604, oppoennt wins: 282
 epsilon: 0.01
 =====================================
-2022-05-20 19:50:24.099349: Saved model to 4.h5
-Games played: 2500, agent wins: 1907, oppoennt wins: 426
+2022-05-21 02:52:18.840979: Saved model to 5.h5
+Games played: 2500, agent wins: 2011, oppoennt wins: 355
 epsilon: 0.01
 =====================================
-2022-05-20 20:06:10.380275: Saved model to 4.h5
-Games played: 3000, agent wins: 2293, oppoennt wins: 506
+2022-05-21 03:06:13.458475: Saved model to 5.h5
+Games played: 3000, agent wins: 2419, oppoennt wins: 421
 epsilon: 0.01
 =====================================
-2022-05-20 20:22:19.698584: Saved model to 4.h5
-Games played: 3500, agent wins: 2680, oppoennt wins: 586
+2022-05-21 03:20:10.362215: Saved model to 5.h5
+Games played: 3500, agent wins: 2834, oppoennt wins: 479
 epsilon: 0.01
 =====================================
-2022-05-20 20:38:22.088898: Saved model to 4.h5
-Games played: 4000, agent wins: 3075, oppoennt wins: 660
+2022-05-21 03:34:04.928629: Saved model to 5.h5
+Games played: 4000, agent wins: 3245, oppoennt wins: 549
 epsilon: 0.01
 =====================================
-2022-05-20 20:54:16.925255: Saved model to 4.h5
-Games played: 4500, agent wins: 3474, oppoennt wins: 738
+2022-05-21 03:48:07.410027: Saved model to 5.h5
+Games played: 4500, agent wins: 3660, oppoennt wins: 607
 epsilon: 0.01
 =====================================
-2022-05-20 21:09:47.220990: Saved model to 4.h5
-Games played: 5000, agent wins: 3858, oppoennt wins: 830
+2022-05-21 04:01:54.597460: Saved model to 5.h5
+Games played: 5000, agent wins: 4076, oppoennt wins: 663
 epsilon: 0.01
 =====================================
-2022-05-20 21:25:10.646621: Saved model to 4.h5
-Games played: 5500, agent wins: 4241, oppoennt wins: 913
+2022-05-21 04:15:55.796694: Saved model to 5.h5
+Games played: 5500, agent wins: 4485, oppoennt wins: 723
 epsilon: 0.01
 =====================================
-2022-05-20 21:38:47.096570: Saved model to 4.h5
-Games played: 6000, agent wins: 4635, oppoennt wins: 996
+2022-05-21 04:29:42.734983: Saved model to 5.h5
+Games played: 6000, agent wins: 4891, oppoennt wins: 781
 epsilon: 0.01
 =====================================
+2022-05-21 04:43:45.530569: Saved model to 5.h5
+Games played: 6500, agent wins: 5308, oppoennt wins: 841
+epsilon: 0.01
+=====================================
+2022-05-21 04:57:25.740043: Saved model to 5.h5
+Games played: 7000, agent wins: 5729, oppoennt wins: 897
+epsilon: 0.01
+=====================================
+2022-05-21 05:11:17.978368: Saved model to 5.h5
+Games played: 7500, agent wins: 6150, oppoennt wins: 955
+epsilon: 0.01
+=====================================
+2022-05-21 05:25:49.543476: Saved model to 5.h5
+Games played: 8000, agent wins: 6561, oppoennt wins: 1017
+epsilon: 0.01
+=====================================
+2022-05-21 05:39:23.882168: Saved model to 5.h5
+Games played: 8500, agent wins: 6976, oppoennt wins: 1078
+epsilon: 0.01
+=====================================
+2022-05-21 05:53:57.319573: Saved model to 5.h5
+Games played: 9000, agent wins: 7385, oppoennt wins: 1143
+epsilon: 0.01
+=====================================
+2022-05-21 06:07:42.037243: Saved model to 5.h5
+Games played: 9500, agent wins: 7810, oppoennt wins: 1198
+epsilon: 0.01
+=====================================
+2022-05-21 06:21:00.873980: Saved model to 5.h5
+Games played: 10000, agent wins: 8229, oppoennt wins: 1257
+epsilon: 0.01
+=====================================
+2022-05-21 06:35:00.565659: Saved model to 5.h5
+Games played: 10500, agent wins: 8645, oppoennt wins: 1311
+epsilon: 0.01
+=====================================
+2022-05-21 06:48:07.596288: Saved model to 5.h5
+Games played: 11000, agent wins: 9072, oppoennt wins: 1360
+epsilon: 0.01
+=====================================
+2022-05-21 07:01:26.383271: Saved model to 5.h5
+Games played: 11500, agent wins: 9499, oppoennt wins: 1417
+epsilon: 0.01
+=====================================
+2022-05-21 07:14:24.696508: Saved model to 5.h5
+Games played: 12000, agent wins: 9913, oppoennt wins: 1480
+epsilon: 0.01
+=====================================
+2022-05-21 07:27:26.533456: Saved model to 5.h5
+Games played: 12500, agent wins: 10351, oppoennt wins: 1522
+epsilon: 0.01
+=====================================
+2022-05-21 07:41:11.829722: Saved model to 5.h5
+Games played: 13000, agent wins: 10775, oppoennt wins: 1568
+epsilon: 0.01
+=====================================
+2022-05-21 07:54:17.140156: Saved model to 5.h5
+Games played: 13500, agent wins: 11200, oppoennt wins: 1618
+epsilon: 0.01
+=====================================
+2022-05-21 08:07:31.696421: Saved model to 5.h5
+Games played: 14000, agent wins: 11629, oppoennt wins: 1668
+epsilon: 0.01
+=====================================
+2022-05-21 08:20:21.233916: Saved model to 5.h5
+Games played: 14500, agent wins: 12073, oppoennt wins: 1711
+epsilon: 0.01
+=====================================
+2022-05-21 08:32:48.771093: Saved model to 5.h5
+Games played: 15000, agent wins: 12510, oppoennt wins: 1759
+epsilon: 0.01
+=====================================
+2022-05-21 08:45:36.817990: Saved model to 5.h5
+Games played: 15500, agent wins: 12945, oppoennt wins: 1806
+epsilon: 0.01
+=====================================
+2022-05-21 08:58:12.451373: Saved model to 5.h5
+Games played: 16000, agent wins: 13380, oppoennt wins: 1851
+epsilon: 0.01
+=====================================
+2022-05-21 09:11:10.306401: Saved model to 5.h5
+Games played: 16500, agent wins: 13810, oppoennt wins: 1901
+epsilon: 0.01
+=====================================
+2022-05-21 09:24:00.386504: Saved model to 5.h5
+Games played: 17000, agent wins: 14242, oppoennt wins: 1949
+epsilon: 0.01
+=====================================
+2022-05-21 09:36:46.324142: Saved model to 5.h5
+Games played: 17500, agent wins: 14662, oppoennt wins: 2004
+epsilon: 0.01
+=====================================
+2022-05-21 09:49:45.385634: Saved model to 5.h5
+Games played: 18000, agent wins: 15101, oppoennt wins: 2055
+epsilon: 0.01
+=====================================
+2022-05-21 10:02:29.166235: Saved model to 5.h5
+Games played: 18500, agent wins: 15536, oppoennt wins: 2100
+epsilon: 0.01
+=====================================
+2022-05-21 10:15:23.214104: Saved model to 5.h5
+Games played: 19000, agent wins: 15966, oppoennt wins: 2148
+epsilon: 0.01
+=====================================
+2022-05-21 10:28:22.837192: Saved model to 5.h5
+Games played: 19500, agent wins: 16398, oppoennt wins: 2197
+epsilon: 0.01
+=====================================
+2022-05-21 10:41:26.208475: Saved model to 5.h5
+Games played: 20000, agent wins: 16833, oppoennt wins: 2244
+epsilon: 0.01
+=====================================
+0: 7776, 1: 25119, 2: 10727, 3: 71872, 4: 17297, 5: 7466, 6: 3762

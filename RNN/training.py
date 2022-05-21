@@ -13,12 +13,12 @@ config = {'rows': 6, 'columns': 7, 'inarow': 4}
 env = make("connectx", debug=True, configuration=config)
 trainer = env.train([None,'random'])
 
-model = SequentialModel(state_size=config['rows']*config['columns'], action_size=config['columns'], filepath='./RNN/models/4.h5')
+model = SequentialModel(state_size=config['rows']*config['columns'], action_size=config['columns'], filepath='./RNN/models/5.h5')
 
 TRAINING_GAMES = 20000
 EPSILON_CURVE = 0.999769768
 SAVE_INTERVAL = 500
-MODEL_FILENAME = '4.h5'
+MODEL_FILENAME = '5.h5'
 
 i = 1
 agent_wins = 0
