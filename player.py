@@ -2,6 +2,7 @@ from abc import ABCMeta, abstractmethod
 
 from RNN.sequential_model import SequentialModel
 import numpy as np
+from mcts import MCTS_agent
 from minimax import minimax_move
 
 class Player(object):
@@ -50,3 +51,10 @@ class PlayerMiniMax(Player):
     
     def get_move(self, state):
         return minimax_move(state)
+
+
+class PlayerMCTS(Player):
+    
+    def get_move(self, state):
+        print("MCTS")
+        return MCTS_agent(state)

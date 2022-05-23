@@ -7,7 +7,7 @@ import random
 import math
 import sys
 import pygame_menu
-from player import PlayerMiniMax, PlayerRNN
+from player import PlayerMiniMax, PlayerRNN, PlayerMCTS
 from util import *
 
 
@@ -149,9 +149,7 @@ def set_ai_algorithm(value, index):
     elif algorithm ==  "Neural network":
         ai_player = PlayerRNN('Neural network', './RNN/models/4.h5')
     elif algorithm == "MCTS":
-        exit()
-        
-    pass
+        ai_player = PlayerMCTS("MCTS")
 
 
 def start_the_game(args):
