@@ -6,23 +6,23 @@ import random
 WIN_SIZE = 5
 
 # maxmin: MIN: -1, MAX: 1
-def minmax(board, depth, maxmin, alpha, beta):
-    if is_winning_move(board, player_type["bot"]):
+def minmax(board, depth, maxmin, alpha, beta, mark):
+    if is_winning_move(board, mark):
         return 100000 + depth
-    elif is_winning_move(board, player_type["player"]):
+    elif is_winning_move(board, opponent_mark(mark)):
         return -100000 - depth
     elif is_board_full(board):
         return 0
     elif depth == 0:
-        return eval_board(board, player_type["bot"])
+        return eval_board(board, mark)
 
     # MAX
     if (maxmin == 1):
         bestScore = -maxsize
         for col in get_possible_moves(board):
-            insert_disk(board, player_type["bot"], col)
-            score = minmax(board, depth-1, -1, alpha, beta)
-            remove_disk(board, player_type["bot"], col)
+            insert_disk(board, mark, col)
+            score = minmax(board, depth-1, -1, alpha, beta, mark)
+            remove_disk(board, mark, col)
             if score > bestScore:
                 bestScore = score
 
@@ -35,9 +35,9 @@ def minmax(board, depth, maxmin, alpha, beta):
     else:
         bestScore = maxsize
         for col in get_possible_moves(board):
-            insert_disk(board, player_type["player"], col)
-            score = minmax(board, depth-1, 1, alpha, beta)
-            remove_disk(board, player_type["player"], col)
+            insert_disk(board, opponent_mark(mark), col)
+            score = minmax(board, depth-1, 1, alpha, beta, mark)
+            remove_disk(board, opponent_mark(mark), col)
             if (score < bestScore):
                 bestScore = score
 
@@ -79,9 +79,7 @@ def eval_horizontal(board, color):
 # Okno velikosti 4
 def eval_vertical(board, color):
     score = 0
-    opponent = player_type["bot"]
-    if color == opponent:
-      opponent = player_type["player"]
+    opponent = opponent_mark(color)
         
     for col in range(COL_NUM):
       for row in range(ROW_NUM):
@@ -179,19 +177,19 @@ def count_consecutive(window, color):
 
     return consecutive_count
 
-def minimax_move(board):
+def minimax_move(board, mark):
     scores = []
     best_score = -maxsize
     best_column = -1
     for col in get_possible_moves(board):
-        insert_disk(board, player_type["bot"], col)
+        insert_disk(board, mark, col)
         # score = 0
         # if algorithm == "Minimax":
-        score = minmax(board, 4, -1, -maxsize, maxsize)
+        score = minmax(board, 4, -1, -maxsize, maxsize, mark)
         # elif algorithm == "MCTS":
             # print("Not implemented")
             # exit()
-        remove_disk(board, player_type["bot"], col)
+        remove_disk(board, mark, col)
         print(col, score)
         if (score >= best_score):
             scores.append((score, col))

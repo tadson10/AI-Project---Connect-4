@@ -1,13 +1,17 @@
 from contextlib import redirect_stdout
 import random
 from sys import maxsize
+
+from scipy import rand
 import minimax
+import os
 import pygame
 import random
+import itertools
 import math
 import sys
 import pygame_menu
-from player import PlayerMiniMax, PlayerRNN, PlayerMCTS
+from player import PlayerMiniMax, PlayerRNN, PlayerMCTS, PlayerRandom
 from util import *
 
 
@@ -43,7 +47,7 @@ def player_move(board):
     print("PLAYER")
     print_board(board)
     column = int(input("Enter the row for 'O':  "))
-    insert_disk(board, player_type["player"], column)
+    insert_disk(board, player_type["player1"], column)
     return
 
 
@@ -54,11 +58,11 @@ def draw_board(board, screen):
             # (surface, color, (left, top, width, height))
             pygame.draw.rect(screen, BLUE, (col*field_size,
                              row*field_size+field_size, field_size, field_size))
-            if board[row][col] == player_type["bot"]:
+            if board[row][col] == player_type["player2"]:
                 # (surface, color, center (x,y), radius)
                 pygame.draw.circle(
                     screen, RED, (col*field_size+field_size/2, row*field_size+field_size+field_size/2), 40)
-            elif board[row][col] == player_type["player"]:
+            elif board[row][col] == player_type["player1"]:
                 # (surface, color, center (x,y), radius)
                 pygame.draw.circle(
                     screen, YELLOW, (col*field_size+field_size/2, row*field_size+field_size+field_size/2), 40)
@@ -115,21 +119,21 @@ def play_game(board, clock, screen, font):
                     col = math.floor(event.pos[0]/field_size)
                     isFull, row = column_full(board, col)
                     if not isFull:
-                        insert_disk(board, player_type["player"], col)
+                        insert_disk(board, player_type["player1"], col)
                         draw_board(board, screen)
                         pygame.draw.rect(
                             screen, BLACK, (0, 0, COL_NUM*field_size, field_size))
                         turn *= -1
 
-                        if is_winning_move(board, player_type["player"]):
+                        if is_winning_move(board, player_type["player1"]):
                             game_over_screen("Player", font, screen)
                             turn = 0
 
         if turn == 1:
-            insert_disk(board, player_type["bot"], ai_player.get_move(board))
+            insert_disk(board, player_type["player2"], ai_player.get_move(board, player_type["player2"]))
             draw_board(board, screen)
             turn *= -1
-            if is_winning_move(board, player_type["bot"]):
+            if is_winning_move(board, player_type["player2"]):
                 game_over_screen("AI (Minimax)", font, screen)
                 turn = 0
 
@@ -177,9 +181,65 @@ def init_game(board):
     menu.add.button('Quit', pygame_menu.events.EXIT)
     menu.mainloop(screen)
 
-init_game(board)
+# init_game(board)
 
 # while True:  # not is_winning_move():
 #     bot_move(board)
 #     player_move(board)
 # print(get_possible_moves(board))
+
+def play_ai_game(ai1, ai2):
+    board = [[' ' for x in range(COL_NUM)] for y in range(ROW_NUM)]
+    play = True
+    turn = random.choice([-1, 1])
+
+    while play:
+        if turn == -1:
+            insert_disk(board, player_type["player1"], ai1.get_move(board, player_type["player1"]))
+        
+        elif turn == 1:
+            insert_disk(board, player_type["player2"], ai2.get_move(board, player_type["player2"]))
+
+        turn *= -1
+
+        if is_winning_move(board, player_type["player1"]):
+            turn = 0
+            return 0
+
+        if is_winning_move(board, player_type["player2"]):
+            turn = 0
+            return 2
+
+        if is_draw(board):
+            turn = 0
+            return 1
+
+def ai_competition(iters):
+
+    # Disable
+    def blockPrint():
+        sys.stdout = open(os.devnull, 'w')
+
+    # Restore
+    def enablePrint():
+        sys.stdout = sys.__stdout__
+
+
+    minimax_player = PlayerMiniMax("Minimax")
+    RNN_player = PlayerRNN('Neural network', './RNN/models/4.h5')
+    MCTS_player  = PlayerMCTS("MCTS")
+    random_player = PlayerRandom("Random")
+
+    ai_pairs = itertools.combinations([minimax_player, RNN_player, MCTS_player, random_player], 2)
+    for ai1, ai2 in ai_pairs:
+        print()
+        print(f"*****{ai1.label} vs {ai2.label}*****")
+        res = [0, 0, 0]
+        for i in range(iters):
+            blockPrint()
+            res[play_ai_game(ai1, ai2)] += 1
+            enablePrint()
+            print(f"Game {i+1} finished!")
+        print(res)
+
+ai_competition(10)

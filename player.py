@@ -4,6 +4,9 @@ from RNN.sequential_model import SequentialModel
 import numpy as np
 from mcts import MCTS_agent
 from minimax import minimax_move
+import random
+
+from util import get_possible_moves, opponent_mark
 
 class Player(object):
     def __init__(self, label):
@@ -35,26 +38,32 @@ class PlayerRNN(Player):
         return SequentialModel(filepath=rnn_filepath)
 
     #Override base class method
-    def get_move(self, state):
+    def get_move(self, state, mark):
         # epsilon = -1, we do not make random moves as we are not training the network
-        return self.model.predict_action(self.__transform_state(state), -1)
+        return self.model.predict_action(self.__transform_state(state, mark), -1)
 
-    def __transform_state(self, state):
+    def __transform_state(self, state, mark):
         state = np.array(state).flatten()
         state = np.array([state])
         state = np.where(state == ' ', 0,state)
-        state = np.where(state == 'O', 2,state)
-        state = np.where(state == 'X', 1,state)
+        state = np.where(state == mark, 1,state)
+        state = np.where(state == opponent_mark(mark), 2,state)
         return state.astype(int)
 
 class PlayerMiniMax(Player):
     
-    def get_move(self, state):
-        return minimax_move(state)
+    def get_move(self, state, mark):
+        return minimax_move(state, mark)
 
 
 class PlayerMCTS(Player):
     
-    def get_move(self, state):
-        print("MCTS")
-        return MCTS_agent(state)
+    def get_move(self, state, mark):
+        # print(f"MCTS as {mark}")
+        return MCTS_agent(state, mark)
+
+
+class PlayerRandom(Player):
+
+    def get_move(self, state, mark):
+        return random.choice(get_possible_moves(state))

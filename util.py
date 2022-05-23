@@ -3,10 +3,15 @@ ROW_NUM = 6
 COL_NUM = 7
 
 player_type = {
-    "player": "O", # Yellow
-    "bot": "X" # Red
+    "player1": "O", # Yellow, player
+    "player2": "X" # Red, bot
 }
 
+def opponent_mark(mark):
+        """ The mark indicates which player is active - player 1 or player 2. """
+        if mark == player_type["player2"]:
+            return player_type["player1"]
+        return player_type["player2"]
 
 def is_winning_move(board, color):
     # Check horizontal win

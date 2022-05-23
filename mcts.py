@@ -5,12 +5,6 @@ from operator import attrgetter
 from util import *
 
 
-def opponent_mark(mark):
-        """ The mark indicates which player is active - player 1 or player 2. """
-        if mark == player_type["bot"]:
-            return player_type["player"]
-        return player_type["bot"]
-
 def opponent_score(score):
     """ To backpropagate scores on the tree. """
     return 1 - score
@@ -163,9 +157,9 @@ def print_board(board):
 # next_board = max(state.children, key=attrgetter('node_total_score')).action_taken
 # print(next_board)
 
-def MCTS_agent(board):
-    state = State(board, player_type['bot'])
-    for _ in range(500):
+def MCTS_agent(board, mark):
+    state = State(board, mark)
+    for _ in range(1000):
         state.tree_single_run()
     next_move = max(state.children, key=attrgetter('node_total_score')).action_taken
 
